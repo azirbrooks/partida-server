@@ -5,19 +5,19 @@ const helmet = require('helmet');
 
 const port = process.env.PORT || 3000;
 const session = require('./src/session');
+const cors = require('./src/cors');
 
-// Load helmet
+/**  App middlewares */
 app.use(helmet());
-
-// Start session
+app.use(cors);
 app.use(session);
 
-// App routes
+/** App routes */
 app.get('/', function(req, res) {
   res.send('');
 });
 
-// Start http server
+/** Start http server */
 http.listen(port, () => {
   console.log('Server listening at port %d', port);
 });
