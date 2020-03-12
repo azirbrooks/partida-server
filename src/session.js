@@ -1,6 +1,8 @@
 const session = require('express-session');
+const store = require('./session-store');
 
 options = {
+  store: store,
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
