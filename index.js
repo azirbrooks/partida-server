@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const helmet = require('helmet');
+const io = require('socket.io')(http);
 
 const port = process.env.PORT || 3000;
 const session = require('./src/session');
@@ -15,6 +16,12 @@ app.use(session);
 /** App routes */
 app.get('/', function(req, res) {
   res.send('');
+});
+
+/** Socket events */
+io.origins(process.env.CORS_ORIGIN);
+io.on('connection', function(socket) {
+  // socket connected
 });
 
 /** Start http server */
