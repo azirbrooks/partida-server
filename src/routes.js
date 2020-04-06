@@ -1,28 +1,32 @@
-const routes = require('express').Router();
-const bodyParser = require('body-parser');
+const routes = require("express").Router();
+const bodyParser = require("body-parser");
 
 const jsonParser = bodyParser.json();
-const User = require('./User');
+const User = require("./User");
 
-routes.get('/access-control/:resourceUri', function(req, res) {
-  let isAllowed = false;
+routes.get("/access-control/:resourceUri", function (req, res) {
+  let isAuthorized = false;
 
   if (req.session.user !== undefined) {
-    isAllowed = true;
+    isAuthorized = true;
   }
 
-  res.json({ accessControl: { isAllowed: isAllowed } });
+  res.json({ accessControl: { isAuthorized: isAuthorized } });
 });
 
-routes.post('/', jsonParser, function(req, res) {
-  let isAllowed = false;
+routes.post("/", jsonParser, function (req, res) {
+  let isAuthorized = false;
 
-  if (req.body.userName && req.body.roomName) {
-    req.session.user = new User(req.body.userName, req.body.roomName);
-    isAllowed = true;
+  if (req.body.userName && req.body.roomName && req.body.playerNumber) {
+    req.session.user = new User(
+      req.body.userName,
+      req.body.roomName,
+      req.body.playerNumber
+    );
+    isAuthorized = true;
   }
 
-  res.json({ accessControl: { isAllowed: isAllowed } });
+  res.json({ accessControl: { isAuthorized: isAuthorized } });
 });
 
 module.exports = routes;
